@@ -46,10 +46,17 @@ function MainScreen() {
                 tabBarShowLabel: true,
                 tabBarActiveBackgroundColor: '#fff',
                 tabBarInactiveBackgroundColor: '#fff',
+                tabBarActiveTintColor: '#4E2A84',
+                tabBarInactiveTintColor: '#D9D9D9',
+                tabBarStyle: {
+                    height: 70,
+                    paddingBottom: 10
+                },
+                headerShown: false
             })}
         >
             <Tab.Screen name="뉴스" component={TabNewsScreen}/>
-            <Tab.Screen name="설정" component={TabNewsScreen}/>
+            <Tab.Screen name="설정" component={TabSettingsScreen}/>
         </Tab.Navigator>
     )
 }
