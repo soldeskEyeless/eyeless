@@ -19,14 +19,21 @@ import {
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
-import {
+// Navigator
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import MainScreen from './src/main';
+
+/* import {
   Colors,
   DebugInstructions,
   Header,
   LearnMoreLinks,
   ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+} from 'react-native/Libraries/NewAppScreen'; */
 
+const Stack =createNativeStackNavigator();
 export default class App extends Component{
   componentDidMount() {
     setTimeout(() => {
@@ -35,10 +42,22 @@ export default class App extends Component{
 
   render() {
     return (
-      <ScrollView>
-        <Text>Hello, Eyeless!</Text>
-      </ScrollView>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleAlign: 'center',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#4E2A84',
+            },
+            headerLeft: null
+          }}  
+        >
+          <Stack.Screen name="EYELESS" component={MainScreen}/>
+        </Stack.Navigator>
+      </NavigationContainer>
     );
+
   }
 };
 
