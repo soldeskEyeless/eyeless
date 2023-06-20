@@ -24,6 +24,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MainScreen from './src/main';
+import Article from './src/article';
 
 /* import {
   Colors,
@@ -54,6 +55,7 @@ export default class App extends Component{
           }}  
         >
           <Stack.Screen name="EYELESS" component={MainScreen}/>
+          <Stack.Screen name="Article" component={Article}/>
         </Stack.Navigator>
       </NavigationContainer>
     );

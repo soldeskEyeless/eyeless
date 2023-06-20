@@ -16,9 +16,10 @@ import {
     MenuTrigger,
 } from "react-native-popup-menu";
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 import img from '../img.png'
-import { option } from 'yargs';
+import Article from '../article';
 
 function ItemHeadline(){
   const [menuVisible, setMenuVisible] = useState(false);
@@ -36,36 +37,42 @@ function ItemHeadline(){
       hideMenu();
   };
 
+    const navigation = useNavigation();
+
+    const handleItemPress = () => {
+      navigation.navigate('Article');
+    }
+
   return(
-    <TouchableOpacity>
-                <View style={styles.newsItemView}>
-                    <Image source={img} style={styles.img}></Image>
-                    <View style={{flex:2}}>
-                        <MenuProvider>
-                            <View style={styles.textAndMenu}>
-                              <Text style={styles.itemTextHeadline}>행정각부의 설치, 조직과 직무범위는 법률로 정한다.</Text>  
-                                <View>
-                                    <TouchableOpacity onPress={showMenu}>
-                                        <Menu visible={menuVisible} onBackdropPress={hideMenu}>
-                                            <MenuTrigger>
-                                            <Icon name='ellipsis-vertical' size={18} color='#b7b7b7'/>
-                                            </MenuTrigger>
-                                            <MenuOptions customStyles={menuOptionsStyles}>
-                                                <MenuOption onSelect={() => handleMenuOptionSelect('다음에 재생')} text='다음에 재생'/>
-                                                <MenuOption onSelect={() => handleMenuOptionSelect('재생목록 추가')} text='재생목록 추가'/>
-                                            </MenuOptions>
-                                        </Menu>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </MenuProvider>
-                        <View style={styles.pressAndPlay}>
-                            <Text style={styles.itemTextPress}>언론사</Text>
-                            <TouchableOpacity><Icon name={'play'} size={15} color={'#4E2A84'}/></TouchableOpacity>    
-                        </View>
-                    </View>
-                </View>
-            </TouchableOpacity>
+    <TouchableOpacity onPress={handleItemPress}>
+      <View style={styles.newsItemView}>
+        <Image source={img} style={styles.img}></Image>
+        <View style={{flex:2}}>
+          <MenuProvider>
+            <View style={styles.textAndMenu}>
+              <Text style={styles.itemTextHeadline}>행정각부의 설치, 조직과 직무범위는 법률로 정한다.</Text>  
+              <View>
+                  <TouchableOpacity onPress={showMenu}>
+                      <Menu visible={menuVisible} onBackdropPress={hideMenu}>
+                          <MenuTrigger>
+                          <Icon name='ellipsis-vertical' size={18} color='#b7b7b7'/>
+                          </MenuTrigger>
+                          <MenuOptions customStyles={menuOptionsStyles}>
+                              <MenuOption onSelect={() => handleMenuOptionSelect('다음에 재생')} text='다음에 재생'/>
+                              <MenuOption onSelect={() => handleMenuOptionSelect('재생목록 추가')} text='재생목록 추가'/>
+                          </MenuOptions>
+                      </Menu>
+                  </TouchableOpacity>
+              </View>
+            </View>
+          </MenuProvider>
+        <View style={styles.pressAndPlay}>
+            <Text style={styles.itemTextPress}>언론사</Text>
+            <TouchableOpacity><Icon name={'play'} size={15} color={'#4E2A84'}/></TouchableOpacity>    
+        </View>
+        </View>
+      </View>
+  </TouchableOpacity>
   )
 }
 
