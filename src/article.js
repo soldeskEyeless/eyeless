@@ -22,11 +22,14 @@ function Article() {
       <ScrollView style={{ backgroundColor: '#fff'}}>
       <View style={{ backgroundColor: '#fff', marginTop: 20}}>
           <View style={headStyles.container}>
+            <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
               <Image 
-                  source={{uri:'https://mimgnews.pstatic.net/image/upload/office_logo/055/2020/09/15/logo_055_6_20200915154015.png'}}
-                  resizeMode={"cover"}
-                  style={headStyles.logoImageStyle}
+                source={{uri:'https://mimgnews.pstatic.net/image/upload/office_logo/055/2020/09/15/logo_055_6_20200915154015.png'}}
+                resizeMode={"cover"}
+                style={headStyles.logoImageStyle}
               />
+              <TouchableOpacity><Icon name={'play'} size={30} color={'#4E2A84'}/></TouchableOpacity>
+            </View>
               <Text style={headStyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text style={headStyles.date}>2023.06.13. 오후 7:14</Text>
@@ -57,13 +60,13 @@ const headStyles = StyleSheet.create({
   container: {
       flex: 1,
       backgroundColor: '#fff',
-      paddingBottom: 20
+      paddingBottom: 20,
+      padding: 10,
   },
   
   headline: {
       textAlign: 'justify',
       lineHeight: 30,
-      margin: 10,
       fontSize: 20,
       fontWeight: 'bold',
       color: '#000',
@@ -76,14 +79,12 @@ const headStyles = StyleSheet.create({
       fontSize: 12,
       color: '#929293',
       backgroundColor: '#fff',
-      marginLeft: 10
   },
 
   urlText: {
       fontSize: 12,
       color: '#929293',
       backgroundColor: '#fff',
-      marginRight: 10,
       borderBottomColor: 'black',
       borderBottomWidth: 0.5
   },
@@ -93,21 +94,13 @@ const headStyles = StyleSheet.create({
       fontSize: 12,
       color: 'black',
       backgroundColor: '#fff',
-      marginLeft: 10
   },
 
 
   logoImageStyle: {
       width: 80,
       height: 40,
-      marginLeft: 10
   },
-
-  playbuttonStyle: {
-    width: 30,
-    height: 30,
-    marginRight: 10
-  }
 });
 
 const newsStyles = StyleSheet.create({
@@ -128,7 +121,6 @@ const newsStyles = StyleSheet.create({
 
 const article = StyleSheet.create({
   container: {
-      width: 410,
       marginTop: 25,
       marginBottom: 25,
       backgroundColor: '#fff'
