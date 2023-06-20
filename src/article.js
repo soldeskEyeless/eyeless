@@ -19,29 +19,29 @@ function Article() {
 };
 
   return(
-      <ScrollView style={{ backgroundColor: 'white', marginTop: 10}}>
-      <View style={{ backgroundColor: 'white', marginTop: 10}}>
-          <View style={headstyles.container}>
+      <ScrollView style={{ backgroundColor: '#fff'}}>
+      <View style={{ backgroundColor: '#fff', marginTop: 20}}>
+          <View style={headStyles.container}>
               <Image 
                   source={{uri:'https://mimgnews.pstatic.net/image/upload/office_logo/055/2020/09/15/logo_055_6_20200915154015.png'}}
                   resizeMode={"cover"}
-                  style={headstyles.logoimageStyle}
+                  style={headStyles.logoImageStyle}
               />
-              <Text style={headstyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
+              <Text style={headStyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <Text style={headstyles.date}>2023.06.13. 오후 7:14</Text>
+                  <Text style={headStyles.date}>2023.06.13. 오후 7:14</Text>
                   <TouchableOpacity onPress={handleURLPress}>
-                      <Text style={headstyles.urltext}>기사원문 보기</Text>
+                      <Text style={headStyles.urlText}>기사원문 보기</Text>
                   </TouchableOpacity>
               </View>
-              <Text style={headstyles.reporter}>박자연 기자</Text>
+              <Text style={headStyles.reporter}>박자연 기자</Text>
           </View>
                       
-          <View style={newstyles.container}>
+          <View style={newsStyles.container}>
               <Image 
                   source={{uri:'https://imgnews.pstatic.net/image/001/2023/06/14/AKR20230614078500017_01_i_P4_20230614123312290.jpg?type=w647'}}
                   resizeMode={"cover"}
-                  style={newstyles.imageStyle}
+                  style={newsStyles.imageStyle}
               />
           </View>
 
@@ -53,36 +53,35 @@ function Article() {
   )
 }
 
-const headstyles = StyleSheet.create({
+const headStyles = StyleSheet.create({
   container: {
-      width: 410,
-      height: 180,
-      backgroundColor: '#fff'
+      flex: 1,
+      backgroundColor: '#fff',
+      paddingBottom: 20
   },
   
   headline: {
-      width: 406,
-      textAlign: 'left',
+      textAlign: 'justify',
+      lineHeight: 30,
       margin: 10,
       fontSize: 20,
       fontWeight: 'bold',
-      color: 'black',
+      color: '#000',
       backgroundColor: '#fff',
-      marginLeft: 10,
       flexWrap: 'wrap'
   },
 
   date: {
       textAlign: 'left',
       fontSize: 12,
-      color: 'black',
+      color: '#929293',
       backgroundColor: '#fff',
       marginLeft: 10
   },
 
-  urltext: {
+  urlText: {
       fontSize: 12,
-      color: 'black',
+      color: '#929293',
       backgroundColor: '#fff',
       marginRight: 10,
       borderBottomColor: 'black',
@@ -93,20 +92,19 @@ const headstyles = StyleSheet.create({
       textAlign: 'left',
       fontSize: 12,
       color: 'black',
-      fontWeight: 'bold',
       backgroundColor: '#fff',
       marginLeft: 10
   },
 
 
-  logoimageStyle: {
+  logoImageStyle: {
       width: 80,
       height: 40,
       marginLeft: 10
   }
 });
 
-const newstyles = StyleSheet.create({
+const newsStyles = StyleSheet.create({
   container: {
     alignContent:"center",
     justifyContent:"center",
@@ -131,12 +129,13 @@ const article = StyleSheet.create({
   },
 
   article: {
-      textAlign: 'left',
+      textAlign: 'justify',
       fontSize: 15,
       color: 'black',
-      fontWeight: 'bold',
+      fontWeight: '500',
+      lineHeight: 23,
       backgroundColor: '#fff',
-      marginLeft: 10,
+      paddingHorizontal: 10,
       flexWrap: 'wrap'
   }
 });
