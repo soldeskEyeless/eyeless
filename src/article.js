@@ -19,15 +19,15 @@ function Article() {
 };
 
   return(
-      <ScrollView style={{ backgroundColor: 'white', marginTop: 10}}>
-      <View style={{ backgroundColor: 'white', marginTop: 10}}>
-          <View style={headstyles.container}>
+      <ScrollView style={{ backgroundColor: '#fff'}}>
+      <View style={{ backgroundColor: '#fff', marginTop: 20}}>
+          <View style={headStyles.container}>
               <Image 
                   source={{uri:'https://mimgnews.pstatic.net/image/upload/office_logo/055/2020/09/15/logo_055_6_20200915154015.png'}}
                   resizeMode={"cover"}
-                  style={headstyles.logoimageStyle}
+                  style={headStyles.logoImageStyle}
               />
-              <Text style={headstyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
+              <Text style={headStyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text style={headStyles.date}>2023.06.13. 오후 7:14</Text>
                   <TouchableOpacity onPress={handleURLPress}>
@@ -135,12 +135,13 @@ const article = StyleSheet.create({
   },
 
   article: {
-      textAlign: 'left',
+      textAlign: 'justify',
       fontSize: 15,
       color: 'black',
-      fontWeight: 'bold',
+      fontWeight: '500',
+      lineHeight: 23,
       backgroundColor: '#fff',
-      marginLeft: 10,
+      paddingHorizontal: 10,
       flexWrap: 'wrap'
   }
 });
