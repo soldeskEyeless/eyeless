@@ -1,0 +1,121 @@
+import React, { Component, useState } from 'react';
+import {
+    View,
+    Text, 
+    StyleSheet,
+    ScrollView,
+    Image,
+    TouchableOpacity,
+    Button
+} from 'react-native';
+import {
+    Menu,
+    MenuProvider,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from "react-native-popup-menu";
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import img from '../img.png'
+import { option } from 'yargs';
+
+function ItemHeadline(){
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const showMenu = () => setMenuVisible(true);
+  const hideMenu = () => setMenuVisible(false);
+
+  const handleMenuOptionSelect = (option) => {
+      if (option === "다음에 재생") {
+          alert('다음에 재생');
+      } else if (option === "재생목록 추가") {
+          alert('재생목록 추가');
+      }
+
+      hideMenu();
+  };
+
+  return(
+    <TouchableOpacity>
+                <View style={styles.newsItemView}>
+                    <Image source={img} style={styles.img}></Image>
+                    <View style={{flex:2}}>
+                        <MenuProvider>
+                            <View style={styles.textAndMenu}>
+                              <Text style={styles.itemTextHeadline}>행정각부의 설치, 조직과 직무범위는 법률로 정한다.</Text>  
+                                <View>
+                                    <TouchableOpacity onPress={showMenu}>
+                                        <Menu visible={menuVisible} onBackdropPress={hideMenu}>
+                                            <MenuTrigger>
+                                            <Icon name='ellipsis-vertical' size={18} color='#b7b7b7'/>
+                                            </MenuTrigger>
+                                            <MenuOptions customStyles={menuOptionsStyles}>
+                                                <MenuOption onSelect={() => handleMenuOptionSelect('다음에 재생')} text='다음에 재생'/>
+                                                <MenuOption onSelect={() => handleMenuOptionSelect('재생목록 추가')} text='재생목록 추가'/>
+                                            </MenuOptions>
+                                        </Menu>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </MenuProvider>
+                        <View style={styles.pressAndPlay}>
+                            <Text style={styles.itemTextPress}>언론사</Text>
+                            <TouchableOpacity><Icon name={'play'} size={15} color={'#4E2A84'}/></TouchableOpacity>    
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+  )
+}
+
+const styles = StyleSheet.create({
+  
+  newsItemView: {
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderColor: '#D9D9D9',
+    borderBottomWidth: 1,
+  },
+  img: {
+    width: 106,
+    height: 73,
+    resizeMode: 'cover',
+    marginRight: 5
+  },
+  itemTextPress: {
+    fontSize: 13
+  },
+  textAndMenu: {
+    flex: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  itemTextHeadline: {
+    color: '#000',
+    fontWeight: '600',
+    fontSize: 14,
+    flex: 1
+  },
+  pressAndPlay: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+  }
+});
+
+const menuOptionsStyles = {
+  optionsContainer: {
+    position: 'absolute',
+    left: 0,
+    width: 100,
+    overlay: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  },
+}
+
+export default ItemHeadline;
