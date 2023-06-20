@@ -48,7 +48,7 @@ function ItemHeadline(){
       <View style={styles.newsItemView}>
         <Image source={img} style={styles.img}></Image>
         <View style={{flex:2}}>
-          <MenuProvider>
+          <MenuProvider skipInstanceCheck>
             <View style={styles.textAndMenu}>
               <Text style={styles.itemTextHeadline}>행정각부의 설치, 조직과 직무범위는 법률로 정한다.</Text>  
               <View>
