@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import Icon from 'react-native-vector-icons/Ionicons';
 function Article() {
   const handleURLPress = () => {
     const articleURL = 'https://n.news.naver.com/mnews/article/016/0002155787?sid=102';
@@ -22,11 +22,14 @@ function Article() {
       <ScrollView style={{ backgroundColor: 'white', marginTop: 10}}>
       <View style={{ backgroundColor: 'white', marginTop: 10}}>
           <View style={headstyles.container}>
-              <Image 
+            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Image 
                   source={{uri:'https://mimgnews.pstatic.net/image/upload/office_logo/055/2020/09/15/logo_055_6_20200915154015.png'}}
                   resizeMode={"cover"}
                   style={headstyles.logoimageStyle}
-              />
+                />
+                <TouchableOpacity><Icon name={'play'} size={30} color={'#4E2A84'} style={headstyles.playbuttonStyle}/></TouchableOpacity>
+              </View>
               <Text style={headstyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text style={headstyles.date}>2023.06.13. 오후 7:14</Text>
@@ -103,6 +106,12 @@ const headstyles = StyleSheet.create({
       width: 80,
       height: 40,
       marginLeft: 10
+  },
+
+  playbuttonStyle: {
+    width: 30,
+    height: 30,
+    marginRight: 10
   }
 });
 
@@ -131,13 +140,14 @@ const article = StyleSheet.create({
   },
 
   article: {
-      textAlign: 'left',
-      fontSize: 15,
-      color: 'black',
-      fontWeight: 'bold',
-      backgroundColor: '#fff',
-      marginLeft: 10,
-      flexWrap: 'wrap'
+    textAlign: 'justify',
+    fontSize: 15,
+    color: 'black',
+    fontWeight: '500',
+    lineHeight: 23,
+    backgroundColor: '#fff',
+    paddingHorizontal: 10,
+    flexWrap: 'wrap'
   }
 });
 
