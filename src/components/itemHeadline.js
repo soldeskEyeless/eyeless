@@ -18,7 +18,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 
-import img from '../img.png'
+import img from '../defaultImage.png'
 import Article from '../article';
 
 function ItemHeadline({ title, date, main, reporter, media, image, logo, section, url }){
@@ -46,7 +46,11 @@ function ItemHeadline({ title, date, main, reporter, media, image, logo, section
   return(
     <TouchableOpacity onPress={handleItemPress}>
       <View style={styles.newsItemView}>
-        <Image source={{uri: image}} style={styles.img}></Image>
+        {image !== "No elements found with the provided selector" ? (
+          <Image source={{uri: image}} style={styles.img}></Image>
+        ): (
+          <Image source={img} style={styles.img}></Image>
+        )}
         <View style={{flex:2}}>
           <MenuProvider skipInstanceCheck>
             <View style={styles.textAndMenu}>
