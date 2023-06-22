@@ -92,7 +92,7 @@ function Article() {
 
                       
         <View style={newsStyles.container}>
-          {csvData && csvData.length > 0 && (
+          {csvData && csvData.length > 0 && image !== "No elements found with the provided selector" && (
             <Image 
               // 이미지 URL을 CSV 데이터에서 가져옵니다.
               source={{uri: image}}
