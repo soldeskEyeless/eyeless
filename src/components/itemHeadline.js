@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 import img from '../img.png'
 import Article from '../article';
 
-function ItemHeadline(){
+function ItemHeadline({ title, media, image }){
   const [menuVisible, setMenuVisible] = useState(false);
 
   const showMenu = () => setMenuVisible(true);
@@ -46,11 +46,11 @@ function ItemHeadline(){
   return(
     <TouchableOpacity onPress={handleItemPress}>
       <View style={styles.newsItemView}>
-        <Image source={img} style={styles.img}></Image>
+        <Image source={{uri: image}} style={styles.img}></Image>
         <View style={{flex:2}}>
           <MenuProvider skipInstanceCheck>
             <View style={styles.textAndMenu}>
-              <Text style={styles.itemTextHeadline}>행정각부의 설치, 조직과 직무범위는 법률로 정한다.</Text>  
+              <Text style={styles.itemTextHeadline}>{title}</Text>  
               <View>
                   <TouchableOpacity onPress={showMenu}>
                       <Menu visible={menuVisible} onBackdropPress={hideMenu}>
@@ -67,7 +67,7 @@ function ItemHeadline(){
             </View>
           </MenuProvider>
         <View style={styles.pressAndPlay}>
-            <Text style={styles.itemTextPress}>언론사</Text>
+            <Text style={styles.itemTextPress}>{media}</Text>
             <TouchableOpacity><Icon name={'play'} size={15} color={'#4E2A84'}/></TouchableOpacity>    
         </View>
         </View>
