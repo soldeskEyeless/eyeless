@@ -74,8 +74,14 @@ function NewsPolitic() {
                             <ItemHeadline
                                 key={index}
                                 title={item.title}
+                                date={item.date}
+                                main={item.main}
+                                reporter={item.reporter}
                                 media={item.media}
                                 image={item.image}
+                                logo={item.logo}
+                                section={item.section}
+                                url={item.url}
                             />
                         ))
                     )}

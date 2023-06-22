@@ -11,11 +11,14 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNFS from 'react-native-fs';
 import Papa from 'papaparse';
 
 function Article() {
+  const route = useRoute();
+  const {title, date, main, reporter, media, image, logo, section, url} = route.params;
   
   const [csvData, setCsvData] = useState(null);
   
@@ -59,7 +62,7 @@ function Article() {
               <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
                 <Image 
                   // 로고 이미지 URL을 CSV 데이터에서 가져옵니다.
-                  source={{uri: csvData[0].logo}}
+                  source={{uri: logo}}
                   resizeMode={"cover"}
                   style={headStyles.logoImageStyle}
                 />
@@ -67,21 +70,21 @@ function Article() {
               </View>
               <Text style={headStyles.headline}>
                 {/* 제목을 CSV 데이터에서 가져옵니다. */}
-                {csvData[0].title}
+                {title}
               </Text>
               <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text style={headStyles.date}>
                   {/* 날짜를 CSV 데이터에서 가져옵니다. */}
-                  {csvData[0].date}
+                  {date}
                 </Text>
-                <TouchableOpacity onPress={() => Linking.openURL(csvData[0].url)}>
+                <TouchableOpacity onPress={() => Linking.openURL(url)}>
                   {/* URL을 CSV 데이터에서 가져옵니다. */}
                   <Text style={headStyles.urlText}>기사원문 보기</Text>
                 </TouchableOpacity>
               </View>
               <Text style={headStyles.reporter}>
                 {/* 기자 이름을 CSV 데이터에서 가져옵니다. */}
-                {csvData[0].reporter}
+                {reporter}
               </Text>
             </View>
           )}
@@ -92,7 +95,7 @@ function Article() {
           {csvData && csvData.length > 0 && (
             <Image 
               // 이미지 URL을 CSV 데이터에서 가져옵니다.
-              source={{uri: csvData[0].image}}
+              source={{uri: image}}
               resizeMode={"cover"}
               style={newsStyles.imageStyle}
             />
@@ -103,7 +106,7 @@ function Article() {
           <View style={article.container}>
             {csvData && csvData.length > 0 && (
               <Text style={article.article}>
-                {csvData[0].main}
+                {main}
               </Text>
             )}
           </View>
