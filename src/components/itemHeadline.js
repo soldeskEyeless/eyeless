@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native';
 import img from '../img.png'
 import Article from '../article';
 
-function ItemHeadline({ title, media, image }){
+function ItemHeadline({ title, date, main, reporter, media, image, logo, section, url }){
   const [menuVisible, setMenuVisible] = useState(false);
 
   const showMenu = () => setMenuVisible(true);
@@ -40,7 +40,7 @@ function ItemHeadline({ title, media, image }){
     const navigation = useNavigation();
 
     const handleItemPress = () => {
-      navigation.navigate('Article');
+      navigation.navigate('Article', {title, date, main, reporter, media, image, logo, section, url} );
     }
 
   return(
