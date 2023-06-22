@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Linking } from 'react-native'
 import {
     View,
@@ -12,45 +12,103 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
+import RNFS from 'react-native-fs';
+import Papa from 'papaparse';
+
 function Article() {
+  
+  const [csvData, setCsvData] = useState(null);
+  
+  useEffect(() => {
+    const readCsvFile = async () => {
+      // assets 폴더의 CSV 파일 경로 지정
+      const filePath = 'article.csv';
+  
+      try {
+        // 파일을 읽어들임
+        const fileContents = await RNFS.readFileAssets(filePath, 'utf8');
+    
+        // 파일 내용을 파싱 (header 옵션을 true로 설정)
+        Papa.parse(fileContents, {
+          header: true,
+          complete: (result) => {
+            // 파싱 결과를 상태 변수에 저장
+            setCsvData(result.data);
+          }
+        });
+      } catch (error) {
+        console.error("CSV 파일을 읽는데 실패했습니다.", error);
+      }
+    };
+  
+    readCsvFile();
+  }, []);
+  
+
   const handleURLPress = () => {
     const articleURL = 'https://n.news.naver.com/mnews/article/016/0002155787?sid=102';
     Linking.openURL(articleURL);
-};
+  };
 
   return(
       <ScrollView style={{ backgroundColor: '#fff'}}>
       <View style={{ backgroundColor: '#fff', marginTop: 20}}>
-          <View style={headStyles.container}>
-            <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
-              <Image 
-                source={{uri:'https://mimgnews.pstatic.net/image/upload/office_logo/055/2020/09/15/logo_055_6_20200915154015.png'}}
-                resizeMode={"cover"}
-                style={headStyles.logoImageStyle}
-              />
-              <TouchableOpacity><Icon name={'play'} size={30} color={'#4E2A84'}/></TouchableOpacity>
-            </View>
-              <Text style={headStyles.headline}>업종따라 다른 최저임금, 35년 만에 가능할까…"폐업 고민 vs 낙인효과"</Text>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <Text style={headStyles.date}>2023.06.13. 오후 7:14</Text>
-                  <TouchableOpacity onPress={handleURLPress}>
-                      <Text style={headStyles.urlText}>기사원문 보기</Text>
-                  </TouchableOpacity>
-              </View>
-              <Text style={headStyles.reporter}>박자연 기자</Text>
-          </View>
-                      
-          <View style={newsStyles.container}>
-              <Image 
-                  source={{uri:'https://imgnews.pstatic.net/image/001/2023/06/14/AKR20230614078500017_01_i_P4_20230614123312290.jpg?type=w647'}}
+        <View style={headStyles.container}>
+          {csvData && csvData.length > 0 && (
+            <View>
+              <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
+                <Image 
+                  // 로고 이미지 URL을 CSV 데이터에서 가져옵니다.
+                  source={{uri: csvData[0].logo}}
                   resizeMode={"cover"}
-                  style={newsStyles.imageStyle}
-              />
-          </View>
+                  style={headStyles.logoImageStyle}
+                />
+                <TouchableOpacity><Icon name={'play'} size={30} color={'#4E2A84'}/></TouchableOpacity>
+              </View>
+              <Text style={headStyles.headline}>
+                {/* 제목을 CSV 데이터에서 가져옵니다. */}
+                {csvData[0].title}
+              </Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={headStyles.date}>
+                  {/* 날짜를 CSV 데이터에서 가져옵니다. */}
+                  {csvData[0].date}
+                </Text>
+                <TouchableOpacity onPress={() => Linking.openURL(csvData[0].url)}>
+                  {/* URL을 CSV 데이터에서 가져옵니다. */}
+                  <Text style={headStyles.urlText}>기사원문 보기</Text>
+                </TouchableOpacity>
+              </View>
+              <Text style={headStyles.reporter}>
+                {/* 기자 이름을 CSV 데이터에서 가져옵니다. */}
+                {csvData[0].reporter}
+              </Text>
+            </View>
+          )}
+        </View>
+
+                      
+        <View style={newsStyles.container}>
+          {csvData && csvData.length > 0 && (
+            <Image 
+              // 이미지 URL을 CSV 데이터에서 가져옵니다.
+              source={{uri: csvData[0].image}}
+              resizeMode={"cover"}
+              style={newsStyles.imageStyle}
+            />
+          )}
+        </View>
+
 
           <View style={article.container}>
-          <Text style={article.article}>'군위군 청사 모습. 국민DB경북 군위군 대구시 편입 준비가 마무리 단계에 왔다. 대구시는 14일 편입에 따른 변동사항 등을 시 각 부서와 공유하는 최종 보고회를 개최했다.군위군은 ‘경상북도와 대구광역시 간 관할구역 변경에 관한 법률’에 따라 7월1일부터 대구시로 편입된다. 군위 편입은 대구경북신공항 이전지(군위·의성) 결정의 전제 조건으로 추진된 것이다.편입 후 대구시는 전국 특·광역시 중 면적 전국 1위 타이틀을 가지게 된다. 전체 행정구역은 군위군의 1읍·7면이 더해져 7구·2군·7읍·10면·133동 체제로 개편된다. 군위군 인구 2만3219명이 더해져 대구 인구는 238만251명으로 늘어난다.군위군민들도 대도시 교육의 실질적 혜택을 누릴 수 있게 된다. 군위군은 1학군으로 편입되며 내년부터 군위지역 중학생들은 대구 관내 고등학교로 진학할 수 있다. 서민자녀 교육바우처 지원, 대구통합도서관 서비스 등도 이용할 수 있다. 소방·경찰 관할도 대구로 바뀐다.농업 행정은 확대된다. 군위군 편입으로 대구 농업인구는 5만9183명(14% 증가)이 된다. 광역시 중에서 가장 많다. 경지면적도 기존 6917㏊에 군위군 6867㏊를 더해 1만3784㏊로 늘어난다. 대중교통 체계는 시내버스(급행) 노선 2개가 신설되고 마을버스가 도입된다. 택시요금체계와 상·하수도 요금 부과체계 등도 통합된다.기존 군위군이 추진한 보훈수당 등 복지사업은 축소되지 않도록 지원할 예정이다. 대구시 복지사업은 편입 후 군위군민까지 대상자를 확대한다. 군위군 농민수당, 기존 일반농산어촌지역 혜택 등을 계속 받을 수 있도록 조치할 방침이다.대구시·경북도·군위군은 이달 말 부단체장들이 참석하는 편입 기념 상생·화합 간담회를 통해 최종 조율을 마친다. 편입 기념식은 7월 3일 열린다.김종한 대구시 행정부시장은 “127년간 경북도 식구였던 군위군이 7월 대구의 새로운 식구가 돼 대구시 군위군 시대를 맞는다”고 말했다.한편 대구시와 대구시관광협회는 군위 대구 편입에 맞춰 7~12월 월 8회 대구시티투어 군위군 테마코스를 운영한다. 군위군은 아름다운 자연경관을 갖춘 지역으로 화본역, 한밤마을, 삼국유사테마파크 등 다양한 관광자원을 보유하고 있다.' </Text>
+            {csvData && csvData.length > 0 && (
+              <Text style={article.article}>
+                {csvData[0].main}
+              </Text>
+            )}
           </View>
+
+
       </View>
       </ScrollView>
   )
@@ -98,7 +156,7 @@ const headStyles = StyleSheet.create({
 
 
   logoImageStyle: {
-      width: 80,
+      width: 120,
       height: 40,
   },
 });
