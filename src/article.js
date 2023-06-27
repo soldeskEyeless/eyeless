@@ -80,6 +80,15 @@ function Article() {
     setIsPlaying(!isPlaying);
   };
 
+  const resetSound = () => {
+    if (sound) {
+        sound.stop(() => {
+            sound.setCurrentTime(0);
+        });
+    }
+  };
+
+
   const handleURLPress = () => {
     const articleURL = 'https://n.news.naver.com/mnews/article/016/0002155787?sid=102';
     Linking.openURL(articleURL);
@@ -98,9 +107,14 @@ function Article() {
                   resizeMode={"cover"}
                   style={headStyles.logoImageStyle}
                 />
-                <TouchableOpacity onPress={handlePlayPause}>
-                    <Icon name={isPlaying ? 'pause' : 'play'} size={30} color={'#4E2A84'}/>
+                <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
+                  <TouchableOpacity onPress={handlePlayPause}>
+                    <Icon name={isPlaying ? 'pause' : 'play'} size={33} color={'#4E2A84'}/>
                   </TouchableOpacity>
+                  <TouchableOpacity onPress={resetSound}>
+                    <Icon name={'reload-circle'} size={33} color={'#4E2A84'}/>
+                  </TouchableOpacity>
+                </View>
               </View>
               <Text style={headStyles.headline}>
                 {/* 제목을 CSV 데이터에서 가져옵니다. */}
