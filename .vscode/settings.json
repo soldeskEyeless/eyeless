@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
-        "Ionicons"
+        "Ionicons",
+        "RNFS"
     ],
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.compile.nullAnalysis.mode": "automatic"
