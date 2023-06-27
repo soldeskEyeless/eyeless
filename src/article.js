@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import Sound from 'react-native-sound';
 import { Linking } from 'react-native'
 import {
     View,
@@ -21,6 +22,8 @@ function Article() {
   const {title, date, main, reporter, media, image, logo, section, url} = route.params;
   
   const [csvData, setCsvData] = useState(null);
+  const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   
   useEffect(() => {
     const readCsvFile = async () => {
@@ -46,7 +49,36 @@ function Article() {
   
     readCsvFile();
   }, []);
+
+  useEffect(() => {
+    // URL로부터 음악 파일을 로드합니다.
+    const soundInstance = new Sound('https://article-mp34.s3.ap-northeast-2.amazonaws.com//003_0011936994.mp3', null, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // Sound 인스턴스를 상태에 설정합니다.
+      setSound(soundInstance);
+    });
   
+    // 컴포넌트가 언마운트될 때 Sound 인스턴스를 정리합니다.
+    return () => {
+      soundInstance.release();
+    };
+  }, []);
+  
+  const handlePlayPause = () => {
+    if (isPlaying && sound) {
+        sound.pause();
+    } else if (sound) {
+        sound.play((success) => {
+            if (!success) {
+                console.log('Sound did not play successfully');
+            }
+        });
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const handleURLPress = () => {
     const articleURL = 'https://n.news.naver.com/mnews/article/016/0002155787?sid=102';
@@ -66,7 +98,9 @@ function Article() {
                   resizeMode={"cover"}
                   style={headStyles.logoImageStyle}
                 />
-                <TouchableOpacity><Icon name={'play'} size={30} color={'#4E2A84'}/></TouchableOpacity>
+                <TouchableOpacity onPress={handlePlayPause}>
+                    <Icon name={isPlaying ? 'pause' : 'play'} size={30} color={'#4E2A84'}/>
+                  </TouchableOpacity>
               </View>
               <Text style={headStyles.headline}>
                 {/* 제목을 CSV 데이터에서 가져옵니다. */}
