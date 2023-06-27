@@ -103,6 +103,8 @@ function NewsIT() {
                                 logo={item.logo}
                                 section={item.section}
                                 url={item.url}
+                                mp3FileName={item.mp3FileName}
+                                s3Address={item.s3Address}
                             />
                         ))
                     }

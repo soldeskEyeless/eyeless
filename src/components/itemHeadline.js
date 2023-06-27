@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
     View,
     Text, 
@@ -21,8 +21,12 @@ import { useNavigation } from '@react-navigation/native';
 import img from '../defaultImage.png'
 import Article from '../article';
 
-function ItemHeadline({ title, date, main, reporter, media, image, logo, section, url }){
+import Sound from 'react-native-sound';
+
+function ItemHeadline({ title, date, main, reporter, media, image, logo, section, url, mp3FileName, s3Address }){
   const [menuVisible, setMenuVisible] = useState(false);
+  const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const showMenu = () => setMenuVisible(true);
   const hideMenu = () => setMenuVisible(false);
@@ -37,11 +41,42 @@ function ItemHeadline({ title, date, main, reporter, media, image, logo, section
       hideMenu();
   };
 
-    const navigation = useNavigation();
+  useEffect(() => {
+    // URL로부터 음악 파일을 로드합니다.
+    const soundInstance = new Sound(s3Address, null, (error) => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // Sound 인스턴스를 상태에 설정합니다.
+      setSound(soundInstance);
+    });
+  
+    // 컴포넌트가 언마운트될 때 Sound 인스턴스를 정리합니다.
+    return () => {
+      soundInstance.release();
+    };
+  }, []);
 
-    const handleItemPress = () => {
-      navigation.navigate('Article', {title, date, main, reporter, media, image, logo, section, url} );
+  const handlePlayPause = () => {
+    if (isPlaying && sound) {
+        sound.pause();
+    } else if (sound) {
+        sound.play((success) => {
+            if (!success) {
+                console.log('Sound did not play successfully');
+            }
+        });
     }
+    setIsPlaying(!isPlaying);
+  };
+
+  const navigation = useNavigation();
+
+  const handleItemPress = () => {
+    navigation.navigate('Article', {title, date, main, reporter, media, image, logo, section, url, mp3FileName, s3Address} );
+  }
+
 
   return(
     <TouchableOpacity onPress={handleItemPress}>
@@ -72,7 +107,9 @@ function ItemHeadline({ title, date, main, reporter, media, image, logo, section
           </MenuProvider>
         <View style={styles.pressAndPlay}>
             <Text style={styles.itemTextPress}>{media}</Text>
-            <TouchableOpacity><Icon name={'play'} size={15} color={'#4E2A84'}/></TouchableOpacity>    
+            <TouchableOpacity onPress={handlePlayPause}>
+              <Icon name={isPlaying ? 'pause' : 'play'} size={30} color={'#4E2A84'}/>
+            </TouchableOpacity>
         </View>
         </View>
       </View>

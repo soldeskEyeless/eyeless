@@ -19,7 +19,7 @@ import Papa from 'papaparse';
 
 function Article() {
   const route = useRoute();
-  const {title, date, main, reporter, media, image, logo, section, url} = route.params;
+  const {title, date, main, reporter, media, image, logo, section, url, mp3FileName, s3Address} = route.params;
   
   const [csvData, setCsvData] = useState(null);
   const [sound, setSound] = useState(null);
@@ -52,7 +52,7 @@ function Article() {
 
   useEffect(() => {
     // URL로부터 음악 파일을 로드합니다.
-    const soundInstance = new Sound('https://article-mp34.s3.ap-northeast-2.amazonaws.com//003_0011936994.mp3', null, (error) => {
+    const soundInstance = new Sound(s3Address, null, (error) => {
       if (error) {
         console.log('failed to load the sound', error);
         return;
