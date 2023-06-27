@@ -77,6 +77,14 @@ function ItemHeadline({ title, date, main, reporter, media, image, logo, section
     navigation.navigate('Article', {title, date, main, reporter, media, image, logo, section, url, mp3FileName, s3Address} );
   }
 
+  const resetSound = () => {
+    if (sound) {
+        sound.stop(() => {
+            sound.setCurrentTime(0);
+        });
+    }
+  };  
+
 
   return(
     <TouchableOpacity onPress={handleItemPress}>
@@ -107,9 +115,14 @@ function ItemHeadline({ title, date, main, reporter, media, image, logo, section
           </MenuProvider>
         <View style={styles.pressAndPlay}>
             <Text style={styles.itemTextPress}>{media}</Text>
-            <TouchableOpacity onPress={handlePlayPause}>
-              <Icon name={isPlaying ? 'pause' : 'play'} size={30} color={'#4E2A84'}/>
-            </TouchableOpacity>
+              <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
+              <TouchableOpacity onPress={handlePlayPause}>
+                <Icon name={isPlaying ? 'pause' : 'play'} size={30} color={'#4E2A84'}/>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={resetSound}>
+                <Icon name={'reload-circle'} size={30} color={'#4E2A84'}/>
+              </TouchableOpacity>
+            </View>
         </View>
         </View>
       </View>
