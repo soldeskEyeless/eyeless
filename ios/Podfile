@@ -21,6 +21,8 @@ target 'Eyeless' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'EyelessTests' do
     inherit! :complete
     # Pods for testing

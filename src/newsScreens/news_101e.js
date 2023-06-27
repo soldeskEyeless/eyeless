@@ -6,7 +6,8 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    Button
+    Button,
+    ActivityIndicator
 } from 'react-native';
 import {
     Menu,
@@ -25,21 +26,35 @@ import ItemHeadline from '../components/itemHeadline';
 import Papa from 'papaparse';
 import RNFS from 'react-native-fs';
 
+import { fetchCSV } from '../fetchCSV';
+
 function NewsEconomy() {
     const [csvData, setCsvData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        const readCsvFile = async () => {
+    const handleRefresh = async () => {
+        setIsLoading(true);
+
+        try {
+            await readCsvFile();
+            console.log('새로고침 완료');
+        } catch (error) {
+            console.log('새로고침 실패: ', error);
+        }
+        setIsLoading(false);
+    }
+    const readCsvFile = async () => {
         // assets 폴더의 CSV 파일 경로 지정
-        const filePath = 'article.csv';
+        const filePath = await fetchCSV();
     
         try {
             // 파일을 읽어들임
-            const fileContents = await RNFS.readFileAssets(filePath, 'utf8');
+            const fileContents = await RNFS.readFile(filePath, 'utf8');
         
             // 파일 내용을 파싱 (header 옵션을 true로 설정)
             Papa.parse(fileContents, {
                 header: true,
+                encoding: 'ISO-8859-1',
                 complete: (result) => {
                 // section 필드가 100인 데이터만 필터링하여 저장
                 const filteredData = result.data.filter(item => item.section === '101');
@@ -50,7 +65,8 @@ function NewsEconomy() {
             console.error("CSV 파일을 읽는데 실패했습니다.", error);
             }
         };
-    
+
+    useEffect(() => {
         readCsvFile();
     }, []);
 
@@ -61,15 +77,20 @@ function NewsEconomy() {
                 <View style={styles.textAndButtons}>
                     <View style={{flexDirection: 'row', alignItems:'center'}}>
                         <Text style={styles.headlineText}>헤드라인 뉴스</Text>
-                        <TouchableOpacity><Icon name={'refresh-outline'} size={15} color={'#B7B7B7'}/></TouchableOpacity>
+                        <TouchableOpacity onPress={handleRefresh}>
+                            {isLoading ? <ActivityIndicator size="small" color='#b7b7b7'/>:
+                                <Icon name={'refresh-outline'} size={15} color={'#B7B7B7'}/>
+                            }
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.playWholeButton}>
                         <Text style={{color:'#fff'}}>전체 재생</Text>
                     </View>
                 </View>
 
+                {/* csv에 맞게 아이템 보여주기 */}
                 <View>
-                    {csvData && csvData.length > 0 && (
+                    {csvData && csvData.length > 0 && 
                         csvData.map((item, index) => (
                             <ItemHeadline
                                 key={index}
@@ -84,25 +105,9 @@ function NewsEconomy() {
                                 url={item.url}
                             />
                         ))
-                    )}
+                    }
                 </View>
-                {/* 헤드라인 아이템 */}
-                {/* <ItemHeadline />
-                <ItemHeadline />
-                <ItemHeadline />
-                <ItemHeadline />
-                <ItemHeadline /> */}
-                
             </View>
-
-            {/* 헤드라인 더보기 */}
-            {/* <TouchableOpacity>
-                <View style={styles.moreButtonView}>
-                    <Text style={styles.moreText}>헤드라인 더보기</Text>
-                    <Icon name={'chevron-down-outline'} size={15} color={'#BEBEBE'}/>
-                </View>
-            </TouchableOpacity> */}
-
         </ScrollView>
     )
 }

@@ -38,7 +38,7 @@ const Stack =createNativeStackNavigator();
 export default class App extends Component{
   componentDidMount() {
     setTimeout(() => {
-      SplashScreen.hide()}, 2000);
+      SplashScreen.hide()}, 2500);
   }
 
   render() {
