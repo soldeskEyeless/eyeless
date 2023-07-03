@@ -144,7 +144,7 @@ function Article() {
             <Image 
               // 이미지 URL을 CSV 데이터에서 가져옵니다.
               source={{uri: image}}
-              resizeMode={"cover"}
+              resizeMode={"contain"}
               style={newsStyles.imageStyle}
             />
           )}

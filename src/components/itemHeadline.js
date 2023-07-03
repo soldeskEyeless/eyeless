@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   img: {
     width: 106,
     height: 73,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     marginRight: 5
   },
   itemTextPress: {
