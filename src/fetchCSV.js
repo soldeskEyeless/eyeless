@@ -3,7 +3,7 @@ import RNFS, { readFileRes } from "react-native-fs";
 import RNFetchBlob from "rn-fetch-blob";
 
 export const fetchCSV = async () => {
-  const serverURL = 'http://54.180.155.83:3000/download';
+  const serverURL = 'http://43.200.94.162:3000/download';
   const savePath = `${RNFetchBlob.fs.dirs.DocumentDir}/article.csv`;
 
   try {
