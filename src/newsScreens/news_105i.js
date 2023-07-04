@@ -9,6 +9,8 @@ import {
     Button,
     ActivityIndicator
 } from 'react-native';
+import Sound from 'react-native-sound';
+
 import {
     Menu,
     MenuProvider,
@@ -31,6 +33,23 @@ import { fetchCSV } from '../fetchCSV';
 function NewsIT() {
     const [csvData, setCsvData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    const playAll = () => {
+        const sound = new Sound('https://article-mp3.s3.ap-northeast-2.amazonaws.com//009_0005153306.mp3', null, (error) => {
+          if (error) {
+            console.log('Error loading sound: ', error);
+            return;
+          }
+          // Sound loaded, play it
+          sound.play((success) => {
+            if (!success) {
+              console.log('Error playing sound');
+            }
+          });
+        });
+      }
+      
+
 
     const handleRefresh = async () => {
         setIsLoading(true);
@@ -83,9 +102,10 @@ function NewsIT() {
                             }
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.playWholeButton}>
+                    <TouchableOpacity onPress={playAll} style={styles.playWholeButton}>
                         <Text style={{color:'#fff'}}>전체 재생</Text>
-                    </View>
+                    </TouchableOpacity>
+
                 </View>
 
                 {/* csv에 맞게 아이템 보여주기 */}

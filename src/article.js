@@ -104,7 +104,7 @@ function Article() {
                 <Image 
                   // 로고 이미지 URL을 CSV 데이터에서 가져옵니다.
                   source={{uri: logo}}
-                  resizeMode={"cover"}
+                  resizeMode={"contain"}
                   style={headStyles.logoImageStyle}
                 />
                 <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
